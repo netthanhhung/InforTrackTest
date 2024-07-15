@@ -1,0 +1,39 @@
+﻿@model InfoTrack_SEOWeb.Handler.Queries.SearchEngineScrapperQuery
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<h2>Infotrack SEO</h2>
+
+@if (!string.IsNullOrWhiteSpace(ViewBag.ErrorMessage))
+{
+    <h2>There have some issues while extracting content from the google result</h2>
+    <p>@ViewBag.ErrorMessage</p>
+}
+else
+{
+    <form method="post">
+        <div class="form-group">
+            <label>URL *</label>
+            <input placeholder="URL" class="form-control" asp-for="Url" />
+            <span asp-validation-for="Url"></span>
+        </div>
+        <div class="form-group">
+            <label>Search Phrase *</label>
+            <input placeholder="Search Phrase" class="form-control" asp-for="Keyword" />
+            <span asp-validation-for="Keyword"></span>
+        </div>
+        <div class="form-group mt-2">
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </div>
+    </form>
+
+    @if (!string.IsNullOrWhiteSpace(ViewBag.ResultFound))
+    {
+        <p>
+            Result found in pages: @ViewBag.ResultFound
+        </p>
+    }
+}
+<script src="/lib/jquery/dist/jquery.min.js"></script>
+<partial name="_ValidationScriptsPartial"></partial>

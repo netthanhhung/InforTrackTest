@@ -1,0 +1,19 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net7.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="MediatR" Version="12.3.0" />
+		<PackageReference Include="Microsoft.Extensions.Options" Version="8.0.2" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\InforTrack_SEOWeb.Common\InforTrack_SEOWeb.Common.csproj" />
+	  <ProjectReference Include="..\InfoTrack_SEOWeb.Providers\InfoTrack_SEOWeb.Providers.csproj" />
+	</ItemGroup>
+
+</Project>
