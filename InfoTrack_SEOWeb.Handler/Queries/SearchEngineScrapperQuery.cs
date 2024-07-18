@@ -5,6 +5,7 @@ using InfoTrack_SEOWeb.Providers.Scrapper.Models;
 using Microsoft.Extensions.Options;
 using System.ComponentModel.DataAnnotations;
 using System.Web;
+using System.Xml.XPath;
 
 namespace InfoTrack_SEOWeb.Handler.Queries;
 
@@ -25,11 +26,34 @@ public class SearchEngineScrapperQueryHandler : IQueryHandler<SearchEngineScrapp
         using var client = new HttpClient();
         var contentHtml = await client.GetStringAsync(url, cancellationToken);
 
-        var data = scrapperProvider.ExtractObject(new ScrapperRequest(contentHtml, config.XPathParentList, config.XPathItemNode, new List<ChildrenNodeConfig>()
+        var titleXPath = "//div//div//a//div//div//h3//div";
+        var urlXPath = "//div//div//a";
+
+        var data = scrapperProvider.ExtractObject(new ScrapperRequest()
         {
-            new ("Title", "//div//div//a//div//div//h3//div"),
-            new ("Url", "//div//div//a", false, "href")
-        }));
+            ContentHTML = contentHtml,
+            XPathParent = config.XPathParentList,
+            XPathChildren = config.XPathItemNode,
+            ChildrenNodeConfigs = new List<ChildrenNodeConfig>()
+            {
+            new ("Title", titleXPath),
+            new ("Url", urlXPath, false, "href")
+            },
+            ChildValidWhen = (context) =>
+            {
+                if(context.XElement == null)
+                {
+                    return false;
+                }
+
+                if (context.XElement.XPathSelectElement(context.ChildXPath + titleXPath) == null)
+        {
+                    return false;
+                }
+
+                return true;
+            }
+        });
 
         List<int> founds = new List<int>();
 

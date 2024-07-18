@@ -38,19 +38,19 @@ namespace InfoTrack_SEOWeb.Controllers
             }
             catch (XmlException ex)
             {
-                string message = $"Error while parsing html content ({ErrorStatusCode.XMLParsingError}).";
+                string message = $"Error while parsing html content.";
                 this.logger.LogError(ex, message);
                 ViewBag.ErrorMessage = message;
             }
             catch (ParentNodeNotFoundException ex)
             {
-                string message = $"Error while extracting content in html page ({ErrorStatusCode.ParentNotFound}).";
+                string message = $"Error while extracting content in html page.";
                 this.logger.LogError(ex, message);
                 ViewBag.ErrorMessage = message;
             }
             catch (HttpRequestException ex)
             {
-                string message = $"Error while getting content from google ({ErrorStatusCode.HttpRequestProblem}). Please try again after a while. {ex.Message}";
+                string message = $"Error while getting content from google. Please try again after a while. {ex.Message}";
                 this.logger.LogError(ex, message);
                 ViewBag.ErrorMessage = message;
 

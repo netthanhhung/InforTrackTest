@@ -36,8 +36,13 @@ public class ScrapperProvider : IScrapperProvider
             var childFields = new Dictionary<string, string>();
             foreach (var config in request.ChildrenNodeConfigs)
             {
-                var fieldNode = childNode.XPathSelectElement(request.XPathParent + request.XPathChildren + $"[{index}]" + config.XPath);
+                var childXPath = request.XPathParent + request.XPathChildren + $"[{index}]";
+                var fieldNode = childNode.XPathSelectElement(childXPath + config.XPath);
                 if (fieldNode == null)
+                {
+                    continue;
+                }
+                if (request.ChildValidWhen != null && !request.ChildValidWhen(new() { ChildXPath = childXPath, XElement = parentNode }))
                 {
                     continue;
                 }
